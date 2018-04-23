@@ -1,0 +1,72 @@
+def rename_company_image(instance, filename):
+@@ -22,7 +19,7 @@ def rename_company_image(instance, filename):
+     if ext:
+         fn += '.' + ext
+ 
+-    return os.path.join(base,fn)
++    return os.path.join(base, fn)
+ 
+ 
+ class Company(models.Model):
+@@ -51,7 +48,7 @@ class Company(models.Model):
+ 
+     is_customer = models.BooleanField(default=False)
+ 
+-    is_supplier = models.BooleanField(default=False)
++    is_supplier = models.BooleanField(default=True)
+ 
+     def __str__(self):
+         return self.name
+@@ -66,4 +63,3 @@ def part_count(self):
+     @property
+     def has_parts(self):
+         return self.part_count > 0
+-
+from part.models import Part
+ from .models import Company
+-#from .models import SupplierOrder
+ 
+ from .forms import EditCompanyForm
+-#from .forms import EditSupplierOrderForm
+-
+-"""
+-class SupplierOrderDetail(DetailView):
+-    context_object_name = 'order'
+-    model = SupplierOrder
+-    template_name = 'company/order_detail.html'
+-    queryset = SupplierOrder.objects.all()
+-
+-
+-class SupplierOrderCreate(CreateView):
+-    model = SupplierOrder
+-    form_class = EditSupplierOrderForm
+-    context_object_name = 'supplier'
+-    template_name = 'company/order_create.html'
+-
+-    def get_initial(self):
+-        initials = super(SupplierOrderCreate, self).get_initial().copy()
+ 
+-        s_id = self.request.GET.get('supplier', None)
+-
+-        if s_id:
+-            initials['supplier'] = get_object_or_404(Supplier, pk=s_id)
+-
+-        return initials
+-"""
+ 
+ class CompanyIndex(ListView):
+     model = Company
+@@ -54,7 +29,6 @@ def get_queryset(self):
+         return queryset
+ 
+ 
+-
+ class CompanyDetail(DetailView):
+     context_obect_name = 'company'
+     template_name = 'company/detail.html'
+@@ -86,5 +60,3 @@ def post(self, request, *args, **kwargs):
+             return super(CompanyDelete, self).post(request, *args, **kwargs)
+         else:
+             return HttpResponseRedirect(self.get_object().get_absolute_url())
+-
+-
